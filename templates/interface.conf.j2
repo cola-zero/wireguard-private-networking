@@ -15,7 +15,9 @@ ListenPort = {{ wireguard_port }}
 PublicKey = {{ hostvars[node].public.content | b64decode | trim }}
 AllowedIPs = {{ hostvars[node].vpn_ip }}
 Endpoint = {{ hostvars[node]['ansible_host'] | default(hostvars[node]['inventory_hostname']) }}:{{ wireguard_port }}
-
+{% if hostvars[node].wireguard_keepalive > 0 %}
+PersistentKeepalive = {{ hostvars[node].wireguard_keepalive }}
+{% endif %}
 {% endif %}
 {% endfor %}
 
